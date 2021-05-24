@@ -35,8 +35,10 @@ public class Hand {
         return handValue;
     }
 
-    String displayFirstCard() {
-        return ConsoleCard.display(cards.get(0));
+    // QUERY method
+    public List<Card> cards() {
+        // SNAPSHOT of point in time
+        return List.copyOf(cards);
     }
 
     boolean dealerMustDrawCard() {
