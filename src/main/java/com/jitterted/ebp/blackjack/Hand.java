@@ -2,9 +2,6 @@ package com.jitterted.ebp.blackjack;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import static org.fusesource.jansi.Ansi.ansi;
 
 public class Hand {
     private final List<Card> cards = new ArrayList<>();
@@ -43,17 +40,6 @@ public class Hand {
 
     boolean dealerMustDrawCard() {
         return value() <= 16;
-    }
-
-    void display() {
-        System.out.println(cardsAsString());
-    }
-
-    public String cardsAsString() {
-        return cards().stream()
-                      .map(ConsoleCard::display)
-                      .collect(Collectors.joining(
-                              ansi().cursorUp(6).cursorRight(1).toString()));
     }
 
     public void drawFrom(Deck deck) {
