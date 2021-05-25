@@ -14,6 +14,9 @@ class GameOutcomeTest {
         game.playerStands();
         game.dealerTurn();
 
+        assertThat(game.isPlayerDone())
+                .isTrue();
+
         assertThat(game.determineOutcome())
                 .isEqualByComparingTo(GameOutcome.PLAYER_BEATS_DEALER);
     }
@@ -24,6 +27,9 @@ class GameOutcomeTest {
         game.initialDeal();
 
         game.playerHits();
+
+        assertThat(game.isPlayerDone())
+                .isTrue();
 
         assertThat(game.determineOutcome())
                 .isEqualByComparingTo(GameOutcome.PLAYER_BUSTED);
