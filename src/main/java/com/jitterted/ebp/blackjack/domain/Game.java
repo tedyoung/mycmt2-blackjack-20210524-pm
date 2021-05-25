@@ -15,6 +15,9 @@ public class Game {
     public void initialDeal() {
         dealRoundOfCards();
         dealRoundOfCards();
+        if (playerHand.isBlackjack()) {
+            playerDone = true;
+        }
     }
 
     private void dealRoundOfCards() {
@@ -26,15 +29,20 @@ public class Game {
     public GameOutcome determineOutcome() {
         if (playerHand.isBusted()) {
             return GameOutcome.PLAYER_BUSTED;
-        } else if (dealerHand.isBusted()) {
-            return GameOutcome.DEALER_BUSTED;
-        } else if (playerHand.beats(dealerHand)) {
-            return GameOutcome.PLAYER_BEATS_DEALER;
-        } else if (playerHand.pushes(dealerHand)) {
-            return GameOutcome.PLAYER_PUSHES_DEALER;
-        } else {
-            return GameOutcome.PLAYER_LOSES;
         }
+        if (dealerHand.isBusted()) {
+            return GameOutcome.DEALER_BUSTED;
+        }
+        if (playerHand.isBlackjack()) {
+            return GameOutcome.PLAYER_WINS_BLACKJACK;
+        }
+        if (playerHand.beats(dealerHand)) {
+            return GameOutcome.PLAYER_BEATS_DEALER;
+        }
+        if (playerHand.pushes(dealerHand)) {
+            return GameOutcome.PLAYER_PUSHES_DEALER;
+        }
+        return GameOutcome.PLAYER_LOSES;
     }
 
     public void dealerTurn() {
