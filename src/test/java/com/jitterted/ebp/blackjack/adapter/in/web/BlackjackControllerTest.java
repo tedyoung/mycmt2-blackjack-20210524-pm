@@ -54,7 +54,10 @@ class BlackjackControllerTest {
 
     @Test
     public void hitCommandDealsThirdCardToPlayer() throws Exception {
-        Game game = new Game(new Deck());
+        Deck playerHitsDoesNotBust = new StubDeck(Rank.TEN,   Rank.TWO,
+                                                  Rank.EIGHT, Rank.FIVE,
+                                                  Rank.TWO);
+        Game game = new Game(playerHitsDoesNotBust);
         BlackjackController blackjackController = new BlackjackController(game);
         blackjackController.startGame();
 
