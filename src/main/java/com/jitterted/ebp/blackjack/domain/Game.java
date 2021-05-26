@@ -27,6 +27,7 @@ public class Game {
     }
 
     public GameOutcome determineOutcome() {
+        // Guard clause: require game to be complete
         if (playerHand.isBusted()) {
             return GameOutcome.PLAYER_BUSTED;
         }
@@ -64,11 +65,13 @@ public class Game {
     }
 
     public void playerHits() {
+        // Guard Clause: require play still in progress, otherwise throw exception
         playerHand.drawFrom(deck);
         playerDone = playerHand.isBusted();
     }
 
     public void playerStands() {
+        // Guard Clause: require play still in progress, otherwise throw exception
         playerDone = true;
     }
 
