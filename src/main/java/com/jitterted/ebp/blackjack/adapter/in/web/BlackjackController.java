@@ -53,6 +53,7 @@ public class BlackjackController {
     public String standCommand() {
         // gameService.playerStands(gameId, playerId)
         game.playerStands();
+        game.dealerTurn();
         return "redirect:/done";
     }
 }
