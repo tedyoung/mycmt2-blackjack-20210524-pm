@@ -19,18 +19,21 @@ public class BlackjackController {
 
     @PostMapping("/start-game")
     public String startGame() {
+        // gameService.newGame() -> Game ID
         game.initialDeal();
         return redirectBasedOnGameState();
     }
 
     @GetMapping("/game")
     public String gameView(Model model) {
+        // gameService.viewOf(Game ID)
         populateViewModel(model);
         return "blackjack";
     }
 
     @PostMapping("/hit")
     public String hitCommand() {
+        // gameService.playerHits(Game ID)
         game.playerHits();
         return redirectBasedOnGameState();
     }

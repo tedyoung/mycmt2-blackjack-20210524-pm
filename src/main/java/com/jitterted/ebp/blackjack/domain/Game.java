@@ -1,23 +1,24 @@
 package com.jitterted.ebp.blackjack.domain;
 
+import com.jitterted.ebp.blackjack.domain.port.GameMonitor;
+
 public class Game {
 
     private final Deck deck;
 
     private final Hand dealerHand = new Hand();
     private final Hand playerHand = new Hand();
+    private final GameMonitor gameMonitor;
     private boolean playerDone;
 
     public Game(Deck deck) {
         this.deck = deck;
+        this.gameMonitor = game -> {};
     }
 
-    public void initialDeal() {
-        dealRoundOfCards();
-        dealRoundOfCards();
-        if (playerHand.isBlackjack()) {
-            playerDone = true;
-        }
+    public Game(Deck deck, GameMonitor gameMonitor) {
+        this.deck = deck;
+        this.gameMonitor = gameMonitor;
     }
 
     private void dealRoundOfCards() {
@@ -56,24 +57,37 @@ public class Game {
     }
 
     // Query: SNAPSHOT of current state
+
     public Hand playerHand() {
         return playerHand;
     }
-
     public Hand dealerHand() {
         return dealerHand;
+    }
+
+    public void initialDeal() {
+        dealRoundOfCards();
+        dealRoundOfCards();
+        updatePlayerDoneTo(playerHand.isBlackjack());
     }
 
     public void playerHits() {
         // Guard Clause: require play still in progress, otherwise throw exception
         playerHand.drawFrom(deck);
-        playerDone = playerHand.isBusted();
+        updatePlayerDoneTo(playerHand.isBusted());
     }
 
     public void playerStands() {
         // Guard Clause: require play still in progress, otherwise throw exception
-        playerDone = true;
         dealerTurn();
+        updatePlayerDoneTo(true);
+    }
+
+    private void updatePlayerDoneTo(boolean isPlayerDone) {
+        if (isPlayerDone) {
+            playerDone = true;
+            gameMonitor.roundCompleted(this);
+        }
     }
 
     public boolean isPlayerDone() {

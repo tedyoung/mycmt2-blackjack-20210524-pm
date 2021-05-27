@@ -36,8 +36,7 @@ class GameOutcomeTest {
 
     @Test
     public void playerDealtAceAndTenCardWinsBlackjackGameIsOver() throws Exception {
-        Deck playerDealtBlackjack = new StubDeck(Rank.QUEEN, Rank.EIGHT,
-                                                 Rank.ACE, Rank.JACK);
+        Deck playerDealtBlackjack = StubDeck.createPlayerDealtBlackjack();
         Game game = new Game(playerDealtBlackjack);
 
         game.initialDeal();
